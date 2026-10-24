@@ -6,7 +6,6 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>MadaSearch.Shell</RootNamespace>
     <AssemblyName>MadaSearch</AssemblyName>
-    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
