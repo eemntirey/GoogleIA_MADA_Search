@@ -1,0 +1,6 @@
+{
+  "name": "MadaSearch",
+  "description": "Navigateur intelligent et moderne — MadaSearch (MadagascarBrowser). Navigation rapide, économie de données DataSaver, espaces de travail, confidentialité et bloqueur de publicités.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

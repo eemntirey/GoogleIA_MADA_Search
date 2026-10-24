@@ -1,0 +1,34 @@
+name: MadaSearch CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET 8 SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore MadaSearch/MadaSearch.sln
+
+    - name: Build Solution
+      run: dotnet build MadaSearch/MadaSearch.sln --configuration Release --no-restore
+
+    - name: Run Core & Data Unit Tests
+      run: dotnet test MadaSearch/tests/MadaSearch.Core.Tests/MadaSearch.Core.Tests.csproj --configuration Release --no-build --verbosity normal
+
+    - name: Run Data Tests
+      run: dotnet test MadaSearch/tests/MadaSearch.Data.Tests/MadaSearch.Data.Tests.csproj --configuration Release --no-build --verbosity normal
+
+    - name: Run Browser Engine Tests
+      run: dotnet test MadaSearch/tests/MadaSearch.Browser.Tests/MadaSearch.Browser.Tests.csproj --configuration Release --no-build --verbosity normal

@@ -1,0 +1,60 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadaSearch.Core", "src\MadaSearch.Core\MadaSearch.Core.csproj", "{B1E12345-1111-4000-8000-000000000001}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadaSearch.Data", "src\MadaSearch.Data\MadaSearch.Data.csproj", "{B1E12345-2222-4000-8000-000000000002}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadaSearch.Browser", "src\MadaSearch.Browser\MadaSearch.Browser.csproj", "{B1E12345-3333-4000-8000-000000000003}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadaSearch.Assistant", "src\MadaSearch.Assistant\MadaSearch.Assistant.csproj", "{B1E12345-4444-4000-8000-000000000004}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadaSearch.Shell", "src\MadaSearch.Shell\MadaSearch.Shell.csproj", "{B1E12345-5555-4000-8000-000000000005}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadaSearch.Core.Tests", "tests\MadaSearch.Core.Tests\MadaSearch.Core.Tests.csproj", "{B1E12345-6666-4000-8000-000000000006}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadaSearch.Data.Tests", "tests\MadaSearch.Data.Tests\MadaSearch.Data.Tests.csproj", "{B1E12345-7777-4000-8000-000000000007}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadaSearch.Browser.Tests", "tests\MadaSearch.Browser.Tests\MadaSearch.Browser.Tests.csproj", "{B1E12345-8888-4000-8000-000000000008}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B1E12345-1111-4000-8000-000000000001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E12345-1111-4000-8000-000000000001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E12345-1111-4000-8000-000000000001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E12345-1111-4000-8000-000000000001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E12345-2222-4000-8000-000000000002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E12345-2222-4000-8000-000000000002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E12345-2222-4000-8000-000000000002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E12345-2222-4000-8000-000000000002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E12345-3333-4000-8000-000000000003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E12345-3333-4000-8000-000000000003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E12345-3333-4000-8000-000000000003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E12345-3333-4000-8000-000000000003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E12345-4444-4000-8000-000000000004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E12345-4444-4000-8000-000000000004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E12345-4444-4000-8000-000000000004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E12345-4444-4000-8000-000000000004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E12345-5555-4000-8000-000000000005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E12345-5555-4000-8000-000000000005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E12345-5555-4000-8000-000000000005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E12345-5555-4000-8000-000000000005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E12345-6666-4000-8000-000000000006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E12345-6666-4000-8000-000000000006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E12345-6666-4000-8000-000000000006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E12345-6666-4000-8000-000000000006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E12345-7777-4000-8000-000000000007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E12345-7777-4000-8000-000000000007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E12345-7777-4000-8000-000000000007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E12345-7777-4000-8000-000000000007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E12345-8888-4000-8000-000000000008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E12345-8888-4000-8000-000000000008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E12345-8888-4000-8000-000000000008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E12345-8888-4000-8000-000000000008}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

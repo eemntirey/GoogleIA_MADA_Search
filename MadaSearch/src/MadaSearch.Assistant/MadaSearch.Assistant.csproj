@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>MadaSearch.Assistant</RootNamespace>
+    <AssemblyName>MadaSearch.Assistant</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MadaSearch.Core\MadaSearch.Core.csproj" />
+  </ItemGroup>
+</Project>

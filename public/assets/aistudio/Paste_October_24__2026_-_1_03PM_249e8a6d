@@ -1,0 +1,991 @@
+# PROMPT MAÎTRE — CRÉATION COMPLÈTE DE MADASEARCH
+## Navigateur intelligent nouvelle génération — MadagascarBrowser
+
+Tu es une équipe autonome composée d'un architecte logiciel senior, d'un ingénieur .NET/WPF, d'un spécialiste Chromium/WebView2, d'un ingénieur cybersécurité, d'un designer UI/UX, d'un ingénieur QA et d'un expert en optimisation des performances.
+
+Ta mission est de **créer une application complète, cohérente, professionnelle et réellement fonctionnelle nommée MadaSearch**, également connue sous le nom de projet MadagascarBrowser.
+
+Tu dois produire le projet logiciel complet en une seule exécution, avec tous les fichiers nécessaires, une architecture propre, une interface finalisée, les fonctionnalités implémentées, les tests, la documentation et les instructions de compilation.
+
+Ne te limite pas à une proposition, une maquette, un prototype visuel ou une liste de recommandations. Tu dois créer l'application elle-même.
+
+---
+
+# 1. VISION DU PRODUIT
+
+MadaSearch est un navigateur Windows moderne qui associe navigation Internet, recherche, productivité, confidentialité, économie de données et assistance intelligente.
+
+Il doit proposer une expérience aussi soignée que celle de Chrome, tout en développant une identité visuelle et fonctionnelle distincte.
+
+L'objectif est de créer un navigateur :
+- professionnel, moderne, fluide et intuitif ;
+- rapide sur les ordinateurs modestes ;
+- adapté aux connexions Internet lentes ou coûteuses ;
+- conçu en tenant compte des besoins des utilisateurs de Madagascar ;
+- utilisable à l'international ;
+- respectueux de la vie privée ;
+- extensible sans devoir réécrire toute l'application.
+
+La différence de MadaSearch ne doit pas reposer uniquement sur son apparence. Elle doit venir de ses fonctionnalités, de son organisation intelligente, de ses performances et de la qualité de son expérience utilisateur.
+
+## Principes fondamentaux
+
+1. Le fonctionnement réel prime sur l'apparence.
+2. Aucune fonctionnalité ne doit être simulée comme si elle fonctionnait.
+3. La sécurité doit être intégrée à l'architecture.
+4. Les fonctionnalités facultatives ne doivent pas empêcher le navigateur de démarrer.
+5. Les erreurs doivent être explicites et récupérables.
+6. L'application doit rester utilisable sans service d'intelligence artificielle.
+7. Aucune donnée utilisateur ne doit être envoyée à un service externe sans nécessité, consentement et information appropriée.
+8. Les fonctionnalités existantes doivent être préservées lorsqu'une base de code est fournie.
+
+# 2. TECHNOLOGIES OBLIGATOIRES
+
+Créer une application native Windows avec les technologies suivantes :
+
+- Langage : C#.
+- Runtime : .NET 8.
+- Interface : WPF.
+- Moteur de navigation : Microsoft Edge WebView2 Runtime.
+- Architecture : MVVM avec séparation stricte des responsabilités.
+- Base de données locale : SQLite.
+- Tests unitaires : xUnit.
+- Tests d'interface : FlaUI/UI Automation lorsque réalisable.
+- Journalisation : Microsoft.Extensions.Logging ou une solution structurée équivalente.
+- Configuration : fichiers de configuration versionnés sans secrets.
+- Injection de dépendances : Microsoft.Extensions.DependencyInjection.
+
+Utiliser les versions de packages compatibles avec .NET 8 et vérifier leurs dépendances.
+
+Ne pas transformer le produit en simple site React, en application HTML statique ou en maquette de navigateur.
+
+L'application principale doit rester une véritable application Windows WPF utilisant WebView2 pour afficher les sites web.
+
+Google AI Studio peut être orienté vers les applications web : si son environnement ne permet pas de compiler directement WPF, il doit tout de même générer les fichiers sources natifs complets, les projets `.csproj`, la solution `.sln`, les tests et les instructions nécessaires à une compilation sous Windows.
+
+Ne pas remplacer silencieusement la technologie native par une autre.
+
+# 3. ARCHITECTURE DU PROJET
+
+Organiser le code en couches clairement définies.
+
+Structure indicative :
+
+MadaSearch/
+- MadaSearch.sln
+- src/
+  - MadaSearch.Shell/
+    - App.xaml
+    - App.xaml.cs
+    - MainWindow.xaml
+    - MainWindow.xaml.cs
+    - Views/
+    - ViewModels/
+    - Controls/
+    - Themes/
+    - Converters/
+    - Resources/
+  - MadaSearch.Core/
+    - Models/
+    - Interfaces/
+    - Navigation/
+    - Security/
+    - Settings/
+    - Workspaces/
+    - Search/
+  - MadaSearch.Data/
+    - Database/
+    - Repositories/
+    - Migrations/
+    - Persistence/
+  - MadaSearch.Browser/
+    - WebViewEnvironment/
+    - BrowserServices/
+    - TabManager/
+    - DownloadService/
+    - SessionService/
+    - OfflinePageService/
+    - PrivacyService/
+    - ContentBlocking/
+    - DataSaver/
+    - SecurityIndicator/
+    - Recovery/
+  - MadaSearch.Assistant/
+    - IAssistantService.cs
+    - NoOpAssistantService.cs
+    - AssistantState.cs
+    - Providers/
+- tests/
+  - MadaSearch.Core.Tests/
+  - MadaSearch.Data.Tests/
+  - MadaSearch.Browser.Tests/
+  - MadaSearch.UI.Tests/
+- docs/
+- README.md
+- global.json
+- Directory.Build.props
+- .gitignore
+- .editorconfig
+- .github/workflows/ci.yml
+
+Cette structure peut être ajustée si une organisation plus efficace est justifiée, mais les responsabilités doivent rester séparées.
+
+## Architecture logicielle
+
+- Les ViewModels ne doivent pas contenir de logique d'accès direct à SQLite.
+- Les vues ne doivent pas contenir de logique métier importante.
+- Les services doivent être injectables et testables.
+- Les interfaces doivent permettre de remplacer une implémentation sans modifier les consommateurs.
+- Les erreurs doivent être gérées à la bonne frontière.
+- Les opérations longues doivent être asynchrones.
+- Les ressources WebView2 doivent être libérées correctement.
+- Éviter les dépendances circulaires, les classes monolithiques et les singletons globaux injustifiés.
+
+# 4. INTERFACE GRAPHIQUE ET IDENTITÉ VISUELLE
+
+Créer une interface de qualité professionnelle, comparable aux meilleurs navigateurs modernes, mais reconnaissable comme MadaSearch.
+
+## Direction artistique
+
+Identité technologique, élégante, minimaliste et lisible.
+
+Palette recommandée :
+- bleu profond pour les surfaces principales ;
+- bleu électrique pour les actions et les éléments actifs ;
+- arrière-plans neutres cohérents ;
+- texte clair en mode sombre ;
+- texte sombre en mode clair ;
+- couleurs d'état accessibles pour les erreurs, avertissements et succès.
+
+Éviter une interface entièrement bleue, les dégradés excessifs, les effets décoratifs inutiles, les ombres trop fortes et les animations qui ralentissent les ordinateurs modestes.
+
+## Fenêtre principale
+
+Créer une véritable fenêtre de navigateur contenant :
+
+1. Une barre supérieure avec le logo MadaSearch.
+2. Un gestionnaire d'onglets compact et lisible.
+3. Un bouton de nouvel onglet.
+4. Des boutons précédent, suivant et actualiser.
+5. Un bouton d'accueil.
+6. Une barre d'adresse et de recherche centrale.
+7. Un indicateur de sécurité.
+8. Des commandes de téléchargement.
+9. Un accès aux favoris.
+10. Un accès à l'historique.
+11. Un accès aux espaces de travail.
+12. Un accès à l'assistant intelligent.
+13. Un menu principal clairement organisé.
+14. Un panneau de paramètres.
+15. Une zone de notification et de gestion des erreurs.
+
+La page web doit occuper l'essentiel de l'espace disponible.
+
+## Qualité visuelle obligatoire
+
+- Hiérarchie visuelle évidente.
+- Typographie lisible.
+- Contraste suffisant en modes clair et sombre.
+- Icônes cohérentes.
+- Espacements réguliers.
+- Boutons avec états normal, survolé, pressé et désactivé.
+- Navigation clavier.
+- Infobulles utiles.
+- Redimensionnement correct de la fenêtre.
+- Gestion des résolutions courantes.
+- Aucun chevauchement des contrôles.
+- Aucun texte coupé.
+- Aucun bouton décoratif sans action.
+- Aucun contour de focus visuellement parasite ; le focus clavier doit cependant rester visible et accessible.
+
+Les onglets doivent être identifiables immédiatement. L'onglet actif doit être nettement différencié. Le défilement horizontal doit permettre de gérer un grand nombre d'onglets sans écraser leurs titres.
+
+Créer des composants réutilisables et des ressources de thème centralisées.
+
+# 5. PAGE D'ACCUEIL ET RECHERCHE
+
+Créer une page d'accueil native ou locale intégrée au navigateur.
+
+Elle doit comprendre :
+- logo MadaSearch ;
+- champ de recherche principal ;
+- accès aux sites favoris ;
+- raccourcis personnalisables ;
+- accès aux téléchargements récents ;
+- accès aux espaces de travail ;
+- état du mode DataSaver ;
+- accès aux paramètres de confidentialité.
+
+Le champ de recherche doit distinguer correctement une URL d'une requête de recherche.
+
+Prévoir :
+- saisie d'une URL ;
+- recherche textuelle ;
+- validation correcte des adresses ;
+- gestion des caractères Unicode ;
+- moteur de recherche configurable ;
+- possibilité de définir le moteur par défaut ;
+- prise en charge des paramètres de recherche sans concaténation dangereuse ;
+- gestion des erreurs réseau ;
+- historique des recherches selon les préférences de confidentialité.
+
+Le moteur de recherche par défaut doit être configurable. Ne pas prétendre disposer d'un moteur de recherche propriétaire ou d'un index Web si aucun service réel correspondant n'existe.
+
+# 6. GESTION DES ONGLETS
+
+Implémenter une gestion complète des onglets.
+
+Chaque onglet doit posséder son propre état :
+- identifiant stable ;
+- URL courante ;
+- titre ;
+- état de chargement ;
+- indicateur de sécurité ;
+- état de navigation ;
+- éventuelle erreur ;
+- état de sélection.
+
+Fonctionnalités requises :
+- créer un onglet ;
+- fermer un onglet ;
+- sélectionner un onglet ;
+- dupliquer un onglet ;
+- réorganiser les onglets ;
+- afficher un indicateur de chargement ;
+- restaurer les onglets après redémarrage ;
+- gérer les pages en erreur ;
+- ouvrir les liens `target="_blank"` et les événements `window.open` dans un nouvel onglet selon une politique cohérente ;
+- gérer les pop-ups de manière contrôlée ;
+- confirmer la fermeture lorsque des opérations le nécessitent.
+
+Les événements provenant de WebView2 doivent être associés au bon onglet.
+
+Empêcher les fuites de mémoire lors de la fermeture d'un onglet. Libérer les événements, contrôleurs et ressources qui ne sont plus nécessaires.
+
+# 7. NAVIGATION ET WEBVIEW2
+
+Utiliser WebView2 pour la navigation réelle.
+
+Implémenter :
+- navigation HTTP et HTTPS ;
+- retour et avance ;
+- actualisation ;
+- arrêt du chargement ;
+- ouverture de nouveaux onglets ;
+- affichage du titre et de l'URL ;
+- gestion des redirections ;
+- gestion des erreurs DNS et réseau ;
+- restauration après échec ;
+- téléchargement des fichiers ;
+- gestion des liens externes ;
+- pages internes d'erreur ;
+- chargement de pages locales ;
+- indication du chargement en cours.
+
+Initialiser correctement l'environnement WebView2.
+
+Utiliser une stratégie cohérente de profil et de stockage. Les profils normaux peuvent partager les cookies et le cache lorsque cela est souhaité. Les profils privés doivent être isolés.
+
+Ne pas exposer de manière excessive les API natives aux pages web.
+
+Toute communication entre JavaScript et l'application via `WebMessageReceived` doit vérifier l'origine autorisée, le format du message, le schéma des données et l'action demandée.
+
+Ne jamais considérer un message provenant d'une page arbitraire comme fiable.
+
+# 8. ESPACES DE TRAVAIL INTELLIGENTS
+
+Créer une fonctionnalité différenciante : les espaces de travail.
+
+Un utilisateur doit pouvoir créer plusieurs environnements organisés, par exemple :
+- Travail ;
+- Études ;
+- Recherche ;
+- Projets ;
+- Personnel.
+
+Chaque espace peut contenir :
+- des onglets associés ;
+- un nom ;
+- une couleur ou une icône ;
+- des favoris spécifiques ;
+- un état de restauration ;
+- des préférences de session lorsque leur séparation est réellement implémentée.
+
+Fonctionnalités :
+- créer un espace ;
+- renommer ;
+- supprimer avec confirmation ;
+- basculer entre espaces ;
+- sauvegarder et restaurer les onglets ;
+- déplacer un onglet d'un espace à l'autre ;
+- empêcher les pertes accidentelles de session.
+
+L'interface doit rester compréhensible même pour les utilisateurs qui ne souhaitent pas utiliser les espaces de travail.
+
+# 9. ORGANISATION INTELLIGENTE DES ONGLETS
+
+Ajouter une organisation intelligente sans imposer de décisions automatiques irréversibles.
+
+Prévoir :
+- regroupement manuel ;
+- groupes nommés ;
+- détection facultative de doublons d'URL ;
+- proposition de regroupement par domaine ;
+- tri par titre ou domaine ;
+- repérage des onglets inactifs ;
+- fermeture facultative des onglets sélectionnés ;
+- restauration des groupes.
+
+Si une intelligence artificielle est disponible, elle peut proposer des groupes à partir des titres et domaines des onglets après consentement.
+
+Aucun contenu sensible de page ne doit être transmis automatiquement à un modèle externe.
+
+Ne pas prétendre qu'une classification sémantique fonctionne si elle n'est pas réellement implémentée.
+
+# 10. DATA SAVER — ÉCONOMIE DE DONNÉES
+
+Créer un module DataSaver destiné aux connexions lentes, instables ou coûteuses.
+
+Fonctionnalités :
+- activer et désactiver le mode ;
+- afficher les économies mesurées ;
+- comptabiliser les octets lorsque des mesures fiables sont disponibles ;
+- afficher les ressources bloquées ;
+- gérer les images selon les préférences ;
+- gérer les médias et les ressources facultatives lorsque WebView2 permet de le faire ;
+- appliquer des règles de blocage configurables ;
+- exclure des sites de la configuration ;
+- afficher les limites de mesure.
+
+L'interface doit distinguer clairement :
+- les octets réellement mesurés ;
+- les octets estimés ;
+- les économies calculées ;
+- les valeurs indisponibles.
+
+Ne pas inventer de statistiques.
+
+Une estimation d'économie doit reposer sur une méthode documentée et sur des données disponibles. Le blocage d'une ressource ne signifie pas automatiquement qu'une quantité exacte de données a été économisée.
+
+Ne pas prétendre compresser l'ensemble du trafic HTTPS localement si aucune architecture réelle ne permet cette opération.
+
+# 11. BLOQUEUR DE PUBLICITÉS ET DE SUIVEURS
+
+Créer un bloqueur local basé sur des règles explicites.
+
+Fonctionnalités :
+- règles de blocage par domaine ;
+- listes de règles configurables ;
+- liste blanche ;
+- activation et désactivation ;
+- compteur d'éléments bloqués ;
+- journal de diagnostic facultatif ;
+- gestion des exceptions ;
+- mise à jour contrôlée des listes ;
+- affichage des ressources bloquées par catégorie lorsque leur classification est fiable.
+
+Utiliser les API WebView2 adaptées, notamment les événements de filtrage de requêtes lorsque leur portée le permet.
+
+Éviter le blocage excessif qui rendrait les sites inutilisables.
+
+Fournir un moyen simple de désactiver temporairement le blocage pour un site.
+
+Respecter les limites techniques de WebView2 : ne pas présenter le module comme un remplacement parfait d'un moteur de filtrage intégré à Chromium.
+
+Ne jamais télécharger ou exécuter une liste de règles sans validation et sans contrôle de sa provenance.
+
+# 12. HISTORIQUE, FAVORIS ET RECHERCHES
+
+Utiliser SQLite pour stocker les données locales nécessaires.
+
+## Historique
+
+- enregistrer les visites selon les paramètres de confidentialité ;
+- afficher le titre, l'URL et la date ;
+- rechercher dans l'historique ;
+- filtrer par période ;
+- supprimer une entrée ;
+- effacer une période ;
+- effacer l'historique complet.
+
+## Favoris
+
+- ajouter et supprimer ;
+- modifier le titre ;
+- organiser par dossiers ;
+- déplacer les éléments ;
+- rechercher ;
+- ouvrir un favori ;
+- afficher une barre de favoris configurable ;
+- importer et exporter un format documenté lorsque cela est implémenté.
+
+## Base de données
+
+Prévoir :
+- migrations versionnées ;
+- schéma documenté ;
+- accès asynchrones si approprié ;
+- requêtes paramétrées ;
+- transactions ;
+- gestion des erreurs ;
+- intégrité des données ;
+- sauvegarde raisonnable ;
+- tests des migrations.
+
+Ne jamais effacer ou recréer automatiquement la base utilisateur pour contourner une erreur.
+
+# 13. TÉLÉCHARGEMENTS
+
+Créer un gestionnaire de téléchargements complet.
+
+Fonctionnalités :
+- afficher les téléchargements en cours ;
+- progression ;
+- taille lorsque disponible ;
+- vitesse lorsqu'elle est mesurable ;
+- pause et reprise uniquement lorsque la fonctionnalité est réellement prise en charge ;
+- annulation ;
+- ouverture du dossier ;
+- ouverture du fichier ;
+- suppression de l'entrée d'historique ;
+- gestion des erreurs ;
+- détection des téléchargements interrompus ;
+- récupération des métadonnées disponibles ;
+- prévention des conflits de noms ;
+- respect de `Content-Disposition` ;
+- choix du dossier de destination ;
+- confirmation lorsque nécessaire.
+
+Ne jamais prétendre reprendre un téléchargement si le serveur ne prend pas en charge les requêtes partielles et si l'application ne dispose pas des données nécessaires.
+
+Ne pas exécuter automatiquement les fichiers téléchargés.
+
+# 14. SESSIONS ET RESTAURATION
+
+Implémenter un véritable système de sessions.
+
+Fonctionnalités :
+- sauvegarder les onglets ouverts ;
+- restaurer les URL après redémarrage ;
+- sauvegarder les espaces de travail ;
+- restaurer les groupes ;
+- gérer les fermetures inattendues ;
+- enregistrer les snapshots de session ;
+- distinguer un état normal d'un état interrompu ;
+- restaurer progressivement pour limiter la consommation mémoire.
+
+La restauration doit pouvoir être désactivée.
+
+Ne pas enregistrer de manière persistante les données de navigation privée.
+
+Ne pas garantir la restauration exacte d'un formulaire ou de l'état JavaScript d'une page si aucune capture compatible n'existe.
+
+# 15. NAVIGATION PRIVÉE
+
+Créer un mode privé réel, et non un simple thème visuel.
+
+Exigences :
+- profil WebView2 distinct ;
+- répertoire temporaire isolé ;
+- aucune réutilisation des cookies normaux ;
+- aucune écriture de l'historique privé dans l'historique normal ;
+- aucune sauvegarde des onglets privés dans les sessions persistantes ;
+- aucune transmission des données privées à l'assistant ;
+- suppression des données temporaires à la fermeture, dans la mesure permise par le système ;
+- gestion des échecs de nettoyage ;
+- confirmation en cas de fermeture de plusieurs onglets privés.
+
+Ne pas déclarer le mode privé absolument anonyme.
+
+Expliquer clairement qu'il ne masque pas automatiquement l'activité à tous les sites, aux fournisseurs d'accès ou aux administrateurs réseau.
+
+Vérifier que les profils normaux et privés sont effectivement séparés dans les tests.
+
+# 16. CONFIDENTIALITÉ ET SUPPRESSION DES DONNÉES
+
+Créer un panneau de confidentialité.
+
+L'utilisateur doit pouvoir :
+- effacer l'historique ;
+- effacer les cookies ;
+- effacer le cache ;
+- effacer les données de site ;
+- choisir une période lorsque les API le permettent ;
+- sélectionner les catégories à supprimer ;
+- vérifier le résultat ;
+- comprendre les limites de l'opération.
+
+La suppression doit être vérifiée, et non simplement signalée comme réussie après l'appel d'une API.
+
+Ne pas supprimer arbitrairement tous les profils ou tous les fichiers de données pour contourner une difficulté.
+
+Ne pas confondre la suppression de l'historique SQLite avec l'effacement des cookies et du cache WebView2.
+
+# 17. INDICATEURS DE SÉCURITÉ
+
+Créer un indicateur de sécurité visible dans la barre d'adresse.
+
+Il doit afficher des informations fiables :
+- HTTPS ou HTTP ;
+- état de navigation connu ;
+- erreurs de certificat lorsqu'elles sont exposées par les API ;
+- origine actuelle ;
+- informations de sécurité disponibles ;
+- avertissements appropriés.
+
+Ne pas afficher un cadenas vert comme garantie que le site est fiable.
+
+Ne jamais contourner les erreurs de certificat pour rendre une page accessible.
+
+Les certificats invalides doivent être traités de manière sûre, avec une information compréhensible.
+
+Toute fonctionnalité de sécurité doit reposer sur des états réels et vérifiables.
+
+# 18. PAGES HORS LIGNE ET ERREURS
+
+Créer des pages internes cohérentes pour :
+- absence de connexion ;
+- échec DNS ;
+- délai d'attente ;
+- navigation interrompue ;
+- erreur de chargement ;
+- page indisponible ;
+- téléchargement échoué.
+
+Chaque page doit proposer, selon le cas :
+- un message explicatif ;
+- un bouton Réessayer ;
+- un bouton Retour ;
+- une indication de l'URL concernée ;
+- une action de récupération.
+
+Détecter le retour du réseau sans déclencher des rechargements intempestifs.
+
+Ne jamais remplacer silencieusement le contenu d'un site par une fausse page de réussite.
+
+# 19. ASSISTANT INTELLIGENT INTÉGRÉ
+
+Créer un assistant facultatif intégré à MadaSearch.
+
+Il peut aider à :
+- résumer une page ;
+- expliquer un texte sélectionné ;
+- organiser les onglets ;
+- résumer les résultats de recherche fournis ;
+- proposer une organisation de travail ;
+- répondre à des questions sur la page lorsque l'utilisateur le demande ;
+- aider à naviguer dans les fonctionnalités du navigateur.
+
+## Architecture obligatoire
+
+Créer une interface `IAssistantService` et des implémentations indépendantes.
+
+Inclure :
+- `NoOpAssistantService` ;
+- `AssistantState` ;
+- un état explicite de disponibilité ;
+- une gestion des erreurs ;
+- un mécanisme de consentement ;
+- une séparation entre interface utilisateur et fournisseur de modèle ;
+- des tests avec un fournisseur simulé exclusivement dans les tests.
+
+Par défaut, si aucun fournisseur n'est configuré, l'assistant doit rester désactivé ou proposer uniquement des fonctionnalités locales réellement disponibles.
+
+Il doit expliquer clairement qu'aucune donnée n'a été transmise à un modèle externe lorsque le service NoOp est actif.
+
+Ne jamais fabriquer des réponses et les présenter comme des résultats d'IA réels.
+
+## Fournisseurs
+
+Prévoir une architecture permettant l'intégration ultérieure de fournisseurs compatibles avec une API documentée.
+
+Ne pas intégrer de clé API dans le code source.
+
+Utiliser un stockage sécurisé pour les secrets lorsque cela est nécessaire.
+
+L'utilisateur doit pouvoir :
+- désactiver l'assistant ;
+- choisir les données à transmettre ;
+- voir un avertissement avant l'envoi de contenu sensible ;
+- supprimer l'historique de l'assistant ;
+- utiliser le navigateur sans assistant.
+
+Ne jamais transmettre automatiquement tous les onglets ou l'intégralité du contenu des pages.
+
+# 20. PERSONNALISATION
+
+Créer un panneau de paramètres organisé.
+
+Inclure :
+- thème clair ;
+- thème sombre ;
+- thème système ;
+- couleur d'accent ;
+- moteur de recherche ;
+- page d'accueil ;
+- barre de favoris ;
+- comportement des onglets ;
+- restauration des sessions ;
+- préférences DataSaver ;
+- bloqueur de publicités ;
+- confidentialité ;
+- téléchargements ;
+- assistant ;
+- langue de l'interface ;
+- notifications ;
+- réinitialisation sélective des préférences.
+
+Les préférences doivent persister après redémarrage.
+
+La réinitialisation ne doit pas effacer automatiquement les favoris et les données personnelles sans avertissement.
+
+Prévoir une interface française complète. Préparer l'architecture pour d'autres langues, notamment le malgache et l'anglais, sans traduction fictive des chaînes non encore traduites.
+
+# 21. PERFORMANCE ET CONSOMMATION MÉMOIRE
+
+Optimiser l'application pour des ordinateurs Windows modestes.
+
+Exigences :
+- initialisation différée lorsque cela est pertinent ;
+- limitation des opérations inutiles ;
+- chargement progressif des données ;
+- annulation des opérations obsolètes ;
+- réduction des allocations inutiles ;
+- libération correcte des ressources COM et WebView2 ;
+- gestion de la durée de vie des onglets ;
+- journalisation non bloquante ;
+- accès à SQLite sans bloquer l'interface ;
+- restauration progressive des sessions ;
+- limitation des animations ;
+- fermeture propre de l'application.
+
+Ne pas annoncer une consommation mémoire garantie sans mesures reproductibles.
+
+Fournir des moyens de mesurer le temps de démarrage, les opérations de navigation et la consommation de ressources.
+
+Ne pas désactiver des protections de sécurité dans le seul but d'améliorer les performances.
+
+# 22. SÉCURITÉ DU CODE
+
+Appliquer les règles suivantes :
+
+- valider toutes les entrées ;
+- utiliser des requêtes SQL paramétrées ;
+- limiter les API exposées aux pages web ;
+- vérifier l'origine des messages WebView2 ;
+- protéger les opérations sensibles ;
+- éviter les secrets dans les fichiers versionnés ;
+- ne pas journaliser les cookies, jetons ou données privées ;
+- traiter les chemins de fichiers de manière sûre ;
+- gérer les redirections ;
+- éviter les traversées de répertoires ;
+- ne pas lancer automatiquement les fichiers téléchargés ;
+- éviter les mécanismes de désactivation TLS ;
+- protéger les opérations de suppression ;
+- traiter les erreurs sans révéler inutilement des informations internes.
+
+Ne jamais utiliser de données utilisateur réelles dans les tests.
+
+Ne pas introduire de télémétrie cachée.
+
+# 23. ACCESSIBILITÉ ET UTILISABILITÉ
+
+Respecter les principes d'accessibilité Windows.
+
+Prévoir :
+- navigation au clavier ;
+- raccourcis cohérents ;
+- focus visible ;
+- noms accessibles pour les icônes ;
+- contraste suffisant ;
+- textes lisibles ;
+- états compréhensibles ;
+- commandes utilisables sans souris ;
+- erreurs explicites.
+
+Raccourcis minimaux :
+- Ctrl+T : nouvel onglet ;
+- Ctrl+W : fermer l'onglet ;
+- Ctrl+L : sélectionner la barre d'adresse ;
+- Ctrl+R : actualiser ;
+- Alt+Gauche : revenir en arrière ;
+- Alt+Droite : avancer ;
+- Ctrl+D : ajouter un favori ;
+- Ctrl+H : historique ;
+- Ctrl+J : téléchargements ;
+- Ctrl+Shift+N : nouvelle fenêtre privée si cette architecture est prise en charge.
+
+Éviter les conflits entre raccourcis globaux et saisie dans les pages.
+
+# 24. GESTION DES ERREURS ET OBSERVABILITÉ
+
+Implémenter une journalisation structurée avec niveaux :
+- Debug ;
+- Information ;
+- Warning ;
+- Error ;
+- Critical.
+
+Les journaux ne doivent pas contenir systématiquement les URL complètes, les paramètres sensibles ou les données personnelles.
+
+Créer des mécanismes pour diagnostiquer :
+- l'échec d'initialisation de WebView2 ;
+- les erreurs SQLite ;
+- les erreurs de téléchargement ;
+- les problèmes de restauration ;
+- les erreurs de navigation ;
+- les problèmes de configuration ;
+- les erreurs du fournisseur IA.
+
+Les messages visibles pour l'utilisateur doivent être simples. Les journaux techniques doivent aider au diagnostic.
+
+Prévoir un mode de diagnostic désactivable.
+
+# 25. TESTS OBLIGATOIRES
+
+Créer de vrais tests automatisés.
+
+## Tests unitaires
+
+Tester :
+- validation et normalisation des URL ;
+- distinction URL/recherche ;
+- gestion des onglets ;
+- organisation des espaces de travail ;
+- règles de blocage ;
+- calcul des métriques DataSaver ;
+- gestion des préférences ;
+- validation des messages ;
+- gestion des erreurs ;
+- interfaces de l'assistant ;
+- transitions d'état ;
+- gestion des téléchargements ;
+- règles de confidentialité.
+
+## Tests SQLite
+
+Tester :
+- création de la base ;
+- migrations ;
+- ajout et suppression de favoris ;
+- historique ;
+- recherche ;
+- transactions ;
+- récupération après erreur ;
+- intégrité des données.
+
+## Tests d'intégration
+
+Tester lorsque l'environnement le permet :
+- initialisation de WebView2 ;
+- ouverture d'une page de test locale ;
+- création et fermeture d'onglets ;
+- restauration de session ;
+- téléchargement d'un fichier de test ;
+- ouverture de liens dans un nouvel onglet ;
+- isolation du mode privé ;
+- effacement des données ;
+- absence d'écriture de l'historique privé ;
+- arrêt propre de l'application.
+
+Les tests réseau doivent pouvoir fonctionner sur un serveur local afin de ne pas dépendre d'un site Internet tiers.
+
+## Tests d'interface
+
+Tester les principaux parcours utilisateur :
+1. démarrer l'application ;
+2. ouvrir un site ;
+3. créer plusieurs onglets ;
+4. ajouter un favori ;
+5. télécharger un fichier ;
+6. activer le mode sombre ;
+7. créer un espace de travail ;
+8. ouvrir une session privée ;
+9. effacer les données sélectionnées ;
+10. fermer et restaurer une session.
+
+Si certains tests nécessitent un environnement Windows interactif, les documenter explicitement. Ne pas prétendre les avoir exécutés s'ils ne l'ont pas été.
+
+# 26. INTÉGRATION CONTINUE
+
+Créer un workflow GitHub Actions adapté à .NET 8 et WPF.
+
+Le workflow doit :
+1. récupérer le dépôt ;
+2. installer le SDK .NET requis ;
+3. restaurer les dépendances ;
+4. compiler la solution ;
+5. exécuter les tests compatibles avec l'environnement ;
+6. publier les résultats ;
+7. échouer en cas d'erreur de compilation ou de test obligatoire.
+
+Utiliser un runner Windows pour les tâches nécessitant WPF ou WebView2.
+
+Ne pas masquer les erreurs avec `continue-on-error`, sauf pour une tâche explicitement facultative et justifiée.
+
+Ne pas désactiver les tests pour obtenir une CI verte.
+
+Séparer les tests qui exigent une interface interactive des tests unitaires exécutables sans interaction.
+
+Une compilation réussie n'est pas une preuve que toutes les fonctionnalités sont correctes.
+
+# 27. INSTALLATION ET DISTRIBUTION
+
+Préparer le projet pour produire une application Windows installable.
+
+Prévoir :
+- configuration Debug ;
+- configuration Release ;
+- compilation x64 ;
+- publication reproductible ;
+- gestion du runtime .NET ;
+- vérification de la disponibilité du runtime WebView2 ;
+- informations de version ;
+- icône de l'application ;
+- nom du produit ;
+- procédure d'installation ;
+- procédure de désinstallation ;
+- emplacement des données utilisateur ;
+- stratégie de mise à jour documentée.
+
+Un installateur MSI ou MSIX peut être ajouté si l'outillage disponible le permet réellement.
+
+Ne pas présenter un exécutable fictif comme un livrable compilé.
+
+Ne pas supprimer les données utilisateur lors d'une mise à jour normale.
+
+# 28. DOCUMENTATION
+
+Produire un README complet comprenant :
+- présentation de MadaSearch ;
+- fonctionnalités implémentées ;
+- architecture ;
+- prérequis ;
+- installation du SDK ;
+- installation de WebView2 ;
+- ouverture de la solution ;
+- commandes de compilation ;
+- commandes de test ;
+- lancement en mode développement ;
+- génération d'une version Release ;
+- structure des dossiers ;
+- configuration ;
+- gestion des données ;
+- limitations connues ;
+- guide de contribution.
+
+Ajouter une documentation technique décrivant les décisions architecturales et les flux importants.
+
+Fournir un tableau distinguant :
+- fonction terminée et testée ;
+- fonction implémentée mais non testée ;
+- fonction partiellement implémentée ;
+- fonction non implémentée.
+
+# 29. MÉTHODE D'EXÉCUTION
+
+Tu dois travailler de façon autonome et effectuer le maximum de travail réalisable dans une seule exécution.
+
+Ordre de priorité :
+
+1. Générer la solution native complète.
+2. Construire une fenêtre de navigateur réellement fonctionnelle.
+3. Implémenter navigation, onglets et gestion WebView2.
+4. Implémenter favoris, historique et téléchargements.
+5. Implémenter les espaces de travail et les sessions.
+6. Implémenter confidentialité, navigation privée et suppression des données.
+7. Ajouter DataSaver et le blocage des ressources.
+8. Ajouter les paramètres et le système de thèmes.
+9. Ajouter l'architecture de l'assistant intelligent.
+10. Ajouter les tests, la CI et la documentation.
+11. Compiler et corriger les erreurs accessibles dans l'environnement.
+12. Vérifier les principaux parcours utilisateur.
+13. Produire le bilan final.
+
+Ne t'arrête pas après avoir créé l'interface visuelle.
+
+Ne remplace pas les fonctionnalités complexes par des boutons sans action.
+
+Ne crée pas de fausses données pour donner l'impression que les fonctionnalités sont terminées.
+
+Ne réécris pas inutilement plusieurs fois les mêmes fichiers.
+
+Ne supprime pas des composants fonctionnels pour simplifier l'implémentation.
+
+Si une fonctionnalité dépend d'une API indisponible, d'une autorisation, d'une clé ou d'un environnement particulier, implémente l'abstraction correcte, documente la limite et continue sur les autres fonctionnalités.
+
+Si la limite de génération de la plateforme empêche de produire tous les fichiers dans une seule réponse, priorise les fichiers essentiels et utilise les mécanismes de création de fichiers disponibles. Ne prétends pas avoir généré les fichiers qui manquent.
+
+# 30. CRITÈRES D'ACCEPTATION
+
+Le projet est acceptable lorsque les conditions suivantes sont satisfaites :
+
+- La solution native .NET 8/WPF existe.
+- Le projet se compile dans un environnement Windows compatible.
+- La fenêtre principale est professionnelle et responsive.
+- WebView2 affiche réellement les sites.
+- La navigation précédente/suivante fonctionne.
+- Les onglets peuvent être créés, sélectionnés et fermés.
+- Les URL et requêtes de recherche sont traitées correctement.
+- Les favoris et l'historique sont persistants.
+- Les téléchargements sont gérés.
+- Les espaces de travail sont persistants.
+- Les sessions peuvent être restaurées.
+- Le mode privé utilise un profil distinct.
+- Les données privées ne sont pas enregistrées dans l'historique normal.
+- Les opérations d'effacement sont vérifiables.
+- Les paramètres persistent.
+- Le mode sombre et le mode clair sont lisibles.
+- Les fonctionnalités IA absentes ne sont pas simulées.
+- Les erreurs sont gérées.
+- Les tests principaux sont présents.
+- La CI est configurée.
+- La documentation est exploitable.
+
+Toute fonctionnalité non vérifiée doit être identifiée comme telle.
+
+# 31. RÈGLES FINALES NON NÉGOCIABLES
+
+1. Génère du code réel, pas seulement des explications.
+2. Respecte la technologie native Windows demandée.
+3. Privilégie une architecture testable et maintenable.
+4. N'invente aucune API ou méthode inexistante.
+5. Vérifie les signatures des API WebView2 utilisées.
+6. N'introduis aucune clé secrète dans le dépôt.
+7. Ne contourne aucune protection de sécurité.
+8. Ne détruis aucune donnée utilisateur pour résoudre un problème.
+9. N'annonce aucun test comme réussi sans preuve d'exécution.
+10. N'annonce aucune compilation réussie sans résultat vérifiable.
+11. Ne marque pas une fonctionnalité comme terminée si son bouton ne réalise aucune action.
+12. Ne crée aucune fonctionnalité payante ou dépendante d'un service externe comme si elle était immédiatement disponible.
+13. N'impose pas l'utilisation de l'assistant IA.
+14. Ne sacrifie pas la lisibilité au profit des animations.
+15. Ne remplace pas le produit par une simple interface web.
+16. En présence d'un dépôt existant, inspecte et préserve le code fonctionnel au lieu de tout réécrire.
+
+# 32. LIVRABLE FINAL
+
+À la fin de l'exécution, fournis :
+
+- le projet complet ;
+- la solution Visual Studio ;
+- tous les fichiers sources nécessaires ;
+- les ressources graphiques nécessaires ;
+- les tests ;
+- le workflow CI ;
+- les migrations SQLite ;
+- le README ;
+- les instructions de compilation et d'exécution ;
+- les résultats réellement obtenus ;
+- les éventuelles erreurs restantes ;
+- la liste précise des fonctionnalités incomplètes.
+
+Présente les commandes exactes pour restaurer, compiler, tester et lancer le projet sous Windows.
+
+Si l'environnement autorise réellement la création de fichiers, écris les fichiers dans le projet et fournis les chemins des livrables. Sinon, fournis le contenu des fichiers de manière organisée, sans prétendre qu'ils existent déjà.
+
+## OBJECTIF FINAL
+
+Créer MadaSearch comme un véritable navigateur Windows intelligent, professionnel, rapide, sécurisé, personnalisable et adapté aux contraintes de connectivité, avec une identité propre et une architecture permettant son évolution.
+
+Commence maintenant par produire le projet complet. Ne réponds pas uniquement avec un plan d'action. Génère les fichiers, implémente les fonctionnalités, exécute les validations disponibles et termine par un rapport honnête des résultats.
