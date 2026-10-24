@@ -1,6 +1,6 @@
 using MadaSearch.Browser.ContentBlocking;
 using MadaSearch.Browser.DataSaver;
-using MadaSearch.Browser.TabManager;
+using TabManagerImpl = MadaSearch.Browser.TabManager.TabManager;
 using Xunit;
 
 namespace MadaSearch.Browser.Tests;
@@ -54,7 +54,7 @@ public class TabManagerTests
     [Fact]
     public void CreateTab_AddsTabAndSelectsIt()
     {
-        var mgr = new TabManager();
+        var mgr = new TabManagerImpl();
         var tab = mgr.CreateTab("https://www.madagascar-tribune.com");
 
         Assert.Single(mgr.Tabs);
@@ -64,7 +64,7 @@ public class TabManagerTests
     [Fact]
     public void CloseTab_MaintainsActiveTab()
     {
-        var mgr = new TabManager();
+        var mgr = new TabManagerImpl();
         var tab1 = mgr.CreateTab("https://site1.com");
         var tab2 = mgr.CreateTab("https://site2.com");
 
