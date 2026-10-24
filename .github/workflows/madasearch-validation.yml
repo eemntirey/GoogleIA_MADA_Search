@@ -1,0 +1,96 @@
+name: MadaSearch validation
+
+on:
+  push:
+    branches: [main, master, "ci/**", "fix/**", "feat/**"]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: madasearch-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android:
+    name: Android — compile, unit tests and lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Set up Gradle (project has no Gradle wrapper scripts)
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.3.1"
+
+      - name: Verify Gradle and Android SDK
+        run: gradle --version && sdkmanager --list_installed
+
+      - name: Compile Android debug variant
+        run: gradle --no-daemon --stacktrace :app:assembleDebug
+
+      - name: Run Android unit tests
+        run: gradle --no-daemon --stacktrace :app:testDebugUnitTest
+
+      - name: Run Android lint
+        run: gradle --no-daemon --stacktrace :app:lintDebug
+
+      - name: Upload Android test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-test-reports
+          path: |
+            app/build/reports/**
+            app/build/test-results/**
+          if-no-files-found: ignore
+          retention-days: 7
+
+  windows:
+    name: Windows — .NET 8 WPF build and tests
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore solution
+        run: dotnet restore MadaSearch/MadaSearch.sln
+
+      - name: Build solution
+        run: dotnet build MadaSearch/MadaSearch.sln --configuration Release --no-restore
+
+      - name: Run Core tests
+        run: dotnet test MadaSearch/tests/MadaSearch.Core.Tests/MadaSearch.Core.Tests.csproj --configuration Release --no-build --logger "trx;LogFileName=core.trx"
+
+      - name: Run Data tests
+        run: dotnet test MadaSearch/tests/MadaSearch.Data.Tests/MadaSearch.Data.Tests.csproj --configuration Release --no-build --logger "trx;LogFileName=data.trx"
+
+      - name: Run Browser tests
+        run: dotnet test MadaSearch/tests/MadaSearch.Browser.Tests/MadaSearch.Browser.Tests.csproj --configuration Release --no-build --logger "trx;LogFileName=browser.trx"
+
+      - name: Upload .NET test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-test-reports
+          path: MadaSearch/**/TestResults/**/*.trx
+          if-no-files-found: ignore
+          retention-days: 7
