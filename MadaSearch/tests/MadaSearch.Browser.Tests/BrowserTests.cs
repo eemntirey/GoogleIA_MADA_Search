@@ -64,7 +64,7 @@ public class TabManagerTests
     [Fact]
     public void CloseTab_MaintainsActiveTab()
     {
-        var mgr = new TabManager();
+        var mgr = new TabManagerImpl();
         var tab1 = mgr.CreateTab("https://site1.com");
         var tab2 = mgr.CreateTab("https://site2.com");
 
